@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CurrencyConverter2</string>
+    <string-array name="currency_names">
+        <item>USD</item>
+        <item>JPY</item>
+        <item>GBP</item>
+        <item>CHF</item>
+        <item>DKK</item>
+        <item>EUR</item>
+        <item>CNY</item>
+        <item>CAD</item>
+        <item>CAD</item>
+        <item>INR</item>
+        <item>BRL</item>
+        <item>RUB</item>
+        <item>MXN</item>
+    </string-array>
+</resources>
