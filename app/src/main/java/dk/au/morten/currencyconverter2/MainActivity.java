@@ -6,9 +6,12 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer = null;
     private NetworkStuff ns = new NetworkStuff();
     private HashMap<String, Double> staticRates = new HashMap<>();
+    private ListView lv = null;
+
+    private String[] values = new String[] {
+            "1.42",
+            "52.52",
+            "5346.23",
+            "2345.00"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +52,37 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        lv = (ListView) findViewById(R.id.HistoryView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        lv.setAdapter(adapter);
+
+        // ListView Item Click Listener
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                      @Override
+                                      public void onItemClick(AdapterView<?> parent, View view,
+                                                              int position, long id) {
+
+                                          // ListView Clicked item index
+                                          int itemPosition = position;
+
+                                          // ListView Clicked item value
+                                          String itemValue = (String) lv.getItemAtPosition(position);
+
+                                          // Show Alert
+                                          Toast.makeText(getApplicationContext(),
+                                                  "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
+                                                  .show();
+
+                                      }
+                                  });
+
+
+
+
+
 
         JSONObject jObj = null;
         timer = new Timer();
@@ -69,6 +111,15 @@ public class MainActivity extends AppCompatActivity {
                     e1.printStackTrace();
                 }
             }
+            Toast.makeText(getApplicationContext(),
+                    "No internet connection could be made. Using static values.", Toast.LENGTH_LONG)
+                    .show();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),
+                    "Internet connection found. Using latest values", Toast.LENGTH_LONG)
+                    .show();
         }
 
         final Spinner fromSpinner = (Spinner)findViewById(R.id.fromDD);
@@ -185,4 +236,5 @@ public class MainActivity extends AppCompatActivity {
         staticRates.put("USD", 1.16);
         staticRates.put("ZAR", 16.46);
     }
+
 }
